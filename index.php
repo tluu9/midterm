@@ -25,28 +25,40 @@ $f3->route('GET /', function()
     <br><p><a href='form'>Take My Midterm Survey</a></p>";
 });
 
-$f3->route('GET|POST /form',
-    function ($f3)
+$f3->route('GET|POST /form', function($f3)
+{
+    $_SESSION = array();
+
+    if(!empty($_POST))
     {
+        $name = $_POST ["name"];
+        $answers= $_POST ["answers"];
 
-        if (!empty($_POST)) {
-            $answers = $_POST['answers'];
+        $f3->set('name',$name);
+        $f3->set('answers',$answers);
 
-            $f3->set('answers', $answers);
 
-            if (form()) {
-                $_SESSION['answers'] = $answers;
+        if(form())
+        {
+            $_SESSION['name'] = $name;
+            $_SESSION['answers'] = $answers;
 
-                $f3->reroute('/summary');
+            if (empty($answers)) {
+                $_SESSION['answers'] = "No answers selected";
             }
-
+            else {
+                $_SESSION['answers'] = implode(', ', $answers);
+            }
+            $f3->reroute("summary");
         }
-        $view=new Template();
-        echo $view->render( 'views/form.html');
-    });
+    }
 
-//summary
-$f3->route('GET|POST /summary', function() {
+    $view = new Template();
+    echo $view->render('views/form.html');
+});
+
+
+$f3->route('GET /summary', function() {
 
     $view = new Template();
     echo $view->render('views/results.html');
