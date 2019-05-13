@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Midterm Survey</title>
+</head>
+<body>
+<h1>Midterm Survey</h1>
+
+<form method="post" action="#" >
+    <label>Name
+        <input type="text" name="name"> <br>
+    </label>
+
+    <br><label>Check all that apply:<br><br>
+        <check if="{{ @errors['answers'] }}">
+            <span>{{ @errors['answers'] }}</span>
+        </check>
+
+        <repeat group="{{ @theAnswers}}" value="{{ @answer }}">
+            <label>
+                <input type="checkbox" name="answers[]" value="{{ @answer }}"
+                <check if="{{ !empty(@answers) && in_array(@answer, @answers) }}">
+                    checked="checked"
+                </check>
+                >
+                {{ @answer }} <br><br>
+            </label>
+        </repeat>
+    </label>
+
+        <br> <input type="submit" value="Submit">
+
+</form>
+</body>
+</html>
