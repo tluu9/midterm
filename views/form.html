@@ -9,25 +9,25 @@
 
 <form method="post" action="#" >
     <label>Name
-        <input type="text" name="name"> <br>
-    </label>
-
-    <br><label>Check all that apply:<br><br>
-        <check if="{{ @errors['answers'] }}">
-            <span>{{ @errors['answers'] }}</span>
+        <input type="text" name="name" value="{{@name}}"> <br>
+        <check if="{{isset(@errors['name'])}}">
+            <span>{{@errors['name']}}</span>
         </check>
-
-        <repeat group="{{ @theAnswers}}" value="{{ @answer }}">
-            <label>
-                <input type="checkbox" name="answers[]" value="{{ @answer }}"
-                <check if="{{ !empty(@answers) && in_array(@answer, @answers) }}">
-                    checked="checked"
-                </check>
-                >
-                {{ @answer }} <br><br>
-            </label>
-        </repeat>
     </label>
+
+    <br><p>Check all that apply:
+    <check if="{{ @errors['answers'] }}">
+        <span class="err">{{ @errors['answers'] }}</span>
+    </check><br>
+
+    <repeat group="{{ @theAnswers }}" value="{{ @ansOption }}">
+        <label><input type="checkbox" name="answers[]" value="{{ @ansOption }}"
+            <check if="{{ !empty(@answers) && in_array(@ansOption, @answers) }}">
+                checked="checked"
+            </check>
+            >{{ @ansOption }}</label><br>
+    </repeat>
+</p>
 
         <br> <input type="submit" value="Submit">
 
